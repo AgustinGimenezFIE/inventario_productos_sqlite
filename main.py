@@ -1,4 +1,6 @@
-# sistema_productos.py
+# main.py
+#  Agustin Hugo Gimenez
+#  5/2025 - Talento Tech 25003 Turno Tarde
 
 opcion = 0
 productos = []
