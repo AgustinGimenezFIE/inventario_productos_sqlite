@@ -1,75 +1,70 @@
-# main.py
-#  Agustin Hugo Gimenez
-#  5/2025 - Talento Tech 25003 Turno Tarde
+from db import *
+from utils import *
 
-opcion = 0
-productos = []
-
-while opcion != 5:
-    print("\nSistema de Gestión Básica De Productos\n")
+def menu():
+    print("\n" + "="*10 + " Sistema de Inventario " + "="*10)
     print("1. Agregar producto")
     print("2. Mostrar productos")
-    print("3. Buscar producto")
-    print("4. Eliminar producto")
-    print("5. Salir\n")
+    print("3. Buscar producto por nombre")
+    print("4. Eliminar producto por ID")
+    print("5. Actualizar producto por ID")
+    print("6. Reporte de bajo stock")
+    print("7. Salir")
 
-    try:
-        opcion = int(input("Ingrese una opción: "))
-    except ValueError:
-        print("⚠️ Opción inválida. Por favor, ingrese un número del 1 al 5.")
-        continue
-
-    if opcion == 1:
-        print("\n🛒 Agregar producto")
-        nombre = input("Ingrese el nombre del producto: ").strip()
-        categoria = input("Ingrese la categoría del producto: ").strip()
+if __name__ == "__main__":
+    crear_tabla()
+    while True:
+        menu()
         try:
-            precio = int(input("Ingrese el precio del producto (sin centavos): "))
+            opcion = int(input("Seleccione una opción: "))
         except ValueError:
-            print("⚠️ Precio inválido. Debe ser un número entero.")
+            print("⚠️ Opción inválida.")
             continue
 
-        if nombre and categoria:
-            producto = [nombre, categoria, precio]
-            productos.append(producto)
-            print("✅ Producto agregado con éxito.")
+        if opcion == 1:
+            datos = solicitar_datos_producto()
+            if datos:
+                agregar_producto(*datos)
+                print("✅ Producto agregado.")
+
+        elif opcion == 2:
+            mostrar_productos(listar_productos())
+
+        elif opcion == 3:
+            nombre = input("Ingrese nombre a buscar: ").strip()
+            resultados = buscar_producto_por_nombre(nombre)
+            mostrar_productos(resultados)
+
+        elif opcion == 4:
+            try:
+                id = int(input("ID a eliminar: "))
+                if eliminar_producto_por_id(id):
+                    print("✅ Producto eliminado.")
+                else:
+                    print("❌ No se encontró ese ID.")
+            except ValueError:
+                print("⚠️ ID inválido.")
+
+        elif opcion == 5:
+            try:
+                id = int(input("ID a actualizar: "))
+                datos = solicitar_datos_producto()
+                if datos and actualizar_producto(id, *datos):
+                    print("✅ Producto actualizado.")
+                else:
+                    print("❌ No se pudo actualizar el producto.")
+            except ValueError:
+                print("⚠️ ID inválido.")
+
+        elif opcion == 6:
+            try:
+                limite = int(input("Mostrar productos con cantidad <= a: "))
+                mostrar_productos(productos_bajo_stock(limite))
+            except ValueError:
+                print("⚠️ Valor inválido.")
+
+        elif opcion == 7:
+            print("👋 Hasta luego.")
+            break
         else:
-            print("⚠️ No se permiten campos vacíos.")
-
-    elif opcion == 2:
-        print("\n📋 Lista de productos registrados\n")
-        if productos:
-            for i in range(len(productos)):
-                print(f"{i}. Nombre: {productos[i][0]} | Categoría: {productos[i][1]} | Precio: ${productos[i][2]}")
-        else:
-            print("No hay productos registrados.")
-
-    elif opcion == 3:
-        print("\n🔍 Buscar producto")
-        buscar = input("Ingrese el nombre del producto a buscar: ").strip().lower()
-        encontrados = False
-
-        for i, producto in enumerate(productos):
-            if producto[0].lower() == buscar:
-                print(f"{i}. Nombre: {producto[0]} | Categoría: {producto[1]} | Precio: ${producto[2]}")
-                encontrados = True
-
-        if not encontrados:
-            print("❌ El producto no fue encontrado.")
-
-    elif opcion == 4:
-        print("\n🗑️ Baja de producto")
-        try:
-            indice = int(input("Ingrese el número de producto a eliminar: "))
-            if 0 <= indice < len(productos):
-                eliminado = productos.pop(indice)
-                print(f"✅ Producto '{eliminado[0]}' eliminado.")
-            else:
-                print("⚠️ El número de producto no existe.")
-        except ValueError:
-            print("⚠️ Entrada inválida. Debe ser un número.")
-
-    elif opcion == 5:
-        print("👋 Gracias por usar nuestra aplicación.")
-    else:
-        print("⚠️ Opción Incorrecta.")
+            print("⚠️ Opción no válida.")
