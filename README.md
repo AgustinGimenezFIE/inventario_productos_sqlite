@@ -1,86 +1,71 @@
-# 🛍️ Sistema de Gestión Básica de Productos
+# 🧾 Sistema de Gestión de Inventario con SQLite
 
-Este proyecto es parte de la **Pre-Entrega** del curso de Python – Comisión 25003, Turno Tarde, bajo la supervisión del profesor **Gabriel Feldman**.
+Este proyecto es parte del **Trabajo Final Integrador** del curso de Python – Comisión 25003, Turno Tarde, bajo la supervisión del profesor **Gabriel Feldman**.
 
 ---
 
 ## 📌 Descripción
 
+Este sistema de consola en Python permite administrar un inventario de productos utilizando una base de datos SQLite. A diferencia de la pre-entrega (que usaba listas en memoria), esta versión utiliza persistencia real de datos.
+
 El sistema permite:
 
-- Agregar productos (nombre, categoría y precio).
+- Agregar productos (nombre, descripción, cantidad, precio y categoría).
 - Mostrar todos los productos registrados.
 - Buscar productos por nombre.
-- Eliminar productos por su número en la lista.
-- Salir del programa.
+- Eliminar productos por ID.
+- Actualizar productos por ID.
+- Generar un reporte de productos con bajo stock.
 
-Los datos de cada producto se almacenan como sublistas dentro de una lista principal:
-
-```python
-productos = [["nombre", "categoría", precio], ...]
-```
+Los datos se almacenan en la base de datos `inventario.db`, la cual se crea automáticamente.
 
 ---
 
 ## ✅ Requisitos cumplidos
 
-- ✅ Uso de listas para almacenar productos.
-- ✅ Bucle `while` para mantener el menú activo.
-- ✅ Validación de entradas del usuario.
-- ✅ Uso de condicionales (`if`, `elif`, `else`).
-- ✅ Muestra ordenada con índice y formato legible.
-- ✅ Funciones básicas completas: agregar, mostrar, buscar, eliminar y salir.
+- ✅ Uso de SQLite y base de datos persistente.
+- ✅ Modularización del código (`main.py`, `db.py`, `utils.py`, `config.py`).
+- ✅ Interacción por consola clara y validada.
+- ✅ Reporte personalizado de productos con bajo stock.
+- ✅ Uso del módulo `colorama` para mejorar la experiencia en consola.
+- ✅ Código comentado, limpio y mantenible.
 
 ---
 
 ## 🖥️ Cómo ejecutar el programa
 
 1. Asegurate de tener **Python 3.x** instalado.
-2. Cloná este repositorio o descargá el archivo `.py`.
+2. Cloná este repositorio:
 
 ```bash
-git clone https://github.com/AgustinGimenezFIE/preentrega_productos.git
-cd preentrega_productos
-```
+git clone https://github.com/AgustinGimenezFIE/inventario_productos_sqlite.git
+cd inventario_productos_sqlite
 
-3. Ejecutá el archivo con:
+pip install -r requirements.txt
 
-```bash
 python main.py
-```
 
----
-
-## 📋 Ejemplo de uso
-
-```text
-Sistema de Gestión Básica De Productos
-
+========== Sistema de Inventario ==========
 1. Agregar producto
 2. Mostrar productos
-3. Buscar producto
-4. Eliminar producto
-5. Salir
+3. Buscar producto por nombre
+4. Eliminar producto por ID
+5. Actualizar producto por ID
+6. Reporte de bajo stock
+7. Salir
 
-Ingrese una opción: 1
+Seleccione una opción: 1
+Nombre: Lápiz
+Descripción: Lápiz negro N°2
+Cantidad: 20
+Precio: 150
+Categoría: Librería
+✅ Producto agregado.
 
-🛒 Agregar producto
-Ingrese el nombre del producto: Lápiz
-Ingrese la categoría del producto: Librería
-Ingrese el precio del producto (sin centavos): 50
-✅ Producto agregado con éxito.
-```
-
----
-
-## 🧠 Notas
-
-Este programa fue desarrollado como parte del proceso de aprendizaje del lenguaje Python y cumple con los requerimientos de la **Pre-Entrega del Trabajo Final Integrador (TFI)**.
-
----
-
-## 👨‍💻 Autor
-
-**Agustín Hugo Giménez**  
-Comisión 25003 – Turno Tarde  
-Profesor: Gabriel Feldman
+inventario_productos_sqlite/
+├── main.py         # Menú principal
+├── db.py           # Funciones para operar la base de datos
+├── utils.py        # Funciones auxiliares (inputs, colores, etc.)
+├── config.py       # Configuración (nombre de DB)
+├── requirements.txt
+└── inventario.db   # (Se crea automáticamente)
